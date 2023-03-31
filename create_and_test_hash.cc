@@ -28,7 +28,17 @@ void readSequences(const string &seq_filename, vector<string> &result){
     }
 }
 
-
+template <typename HashTableType>
+void findInputs(vector<string> &query, HashTableType& library){
+    for(size_t i = 0; i < query.size(); ++i){
+         library.ResetProbes();
+         string s = query.at(i).substr(0,query.at(i).size()-1);
+         if(library.Contains(query.at(i))) 
+            cout << s << " Found " << library.GetProbes()<< endl;
+         else 
+            cout << s << " Not_Found " << library.GetProbes() <<endl;
+    }
+}
 void readFile(const string &filename, vector<string> &result){
     ifstream fin;
     fin.open(filename, ios::in);
@@ -58,6 +68,7 @@ void TestFunctionForHashTable(HashTableType &hash_table,
 			      const string &query_filename) {
     hash_table.MakeEmpty();
     vector<string> words = vector<string>();
+    vector<string> query = vector<string>();
     readFile(words_filename, words);
     insertVector(words, hash_table);
     cout << "number_of_elements: " << hash_table.Elements()<< endl;
@@ -65,6 +76,11 @@ void TestFunctionForHashTable(HashTableType &hash_table,
     cout << "load_factor: " << hash_table.LoadFactor() << endl;
     cout << "collisions: " << hash_table.Collisions() << endl;
     cout << "avg_collisions: " << float(hash_table.Collisions())/float(hash_table.Elements()) << endl;
+    readFile(query_filename, query);
+    // for(size_t i = 0; i < query.size(); ++i){
+    //     cout << query.at(i) << endl;
+    // }
+    findInputs(query, hash_table);
 }
 
 // @argument_count: argc as provided in main

@@ -44,7 +44,7 @@ class HashTableDouble {
   explicit HashTableDouble(size_t size = 101) : array_(DoubleNextPrime(size))
     { MakeEmpty(); }
   
-  bool Contains(const HashedObj & x) const {
+  bool Contains(const HashedObj & x) {
     return IsActive(FindPos(x));
   }
   
@@ -112,9 +112,24 @@ class HashTableDouble {
     return collisions_;
   }
 
+  void ResetCollisions(){
+    collisions_ = 0;
+  }
+
+
+  int GetProbes(){
+    return probes_;
+  }
+
+  void ResetProbes(){
+    probes_ = 0;
+  }
+
+
   void SetR(int r){
     r_ = r;
   }
+
  private:        
   struct HashEntry {
     HashedObj element_;
@@ -131,6 +146,7 @@ class HashTableDouble {
   size_t current_size_;
   int collisions_;
   int r_;
+  int probes_;
   //check if index is taken
   bool IsActive(size_t current_pos) const
   { return array_[current_pos].info_ == ACTIVE; }
@@ -139,11 +155,12 @@ class HashTableDouble {
   size_t FindPos(const HashedObj & x){
     size_t offset = 1;
     size_t current_pos = InternalHash(x);
-      
+    ++probes_;
     while (array_[current_pos].info_ != EMPTY && array_[current_pos].element_ != x) { 
       current_pos += offset*DoubleHash(x);  // Compute ith probe.
       ++offset;
       ++collisions_;
+      ++probes_;
       //if (current_pos >= array_.size()) //why can't it be 
       current_pos = current_pos%array_.size();
 	      //current_pos -= array_.size();
