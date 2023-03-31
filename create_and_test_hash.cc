@@ -32,11 +32,11 @@ template <typename HashTableType>
 void findInputs(vector<string> &query, HashTableType& library){
     for(size_t i = 0; i < query.size(); ++i){
          library.ResetProbes();
-         string s = query.at(i).substr(0,query.at(i).size()-1);
+        //  string s = query.at(i).substr(0,query.at(i).size()-1);
          if(library.Contains(query.at(i))) 
-            cout << s << " Found " << library.GetProbes()<< endl;
+            cout << query.at(i) << " Found " << library.GetProbes()<< endl;
          else 
-            cout << s << " Not_Found " << library.GetProbes() <<endl;
+            cout << query.at(i) << " Not_Found " << library.GetProbes() <<endl;
     }
 }
 void readFile(const string &filename, vector<string> &result){
