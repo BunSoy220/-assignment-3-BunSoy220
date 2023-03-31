@@ -77,6 +77,7 @@ void TestFunctionForHashTable(HashTableType &hash_table,
     cout << "collisions: " << hash_table.Collisions() << endl;
     cout << "avg_collisions: " << float(hash_table.Collisions())/float(hash_table.Elements()) << endl;
     readFile(query_filename, query);
+    cout << endl;
     // for(size_t i = 0; i < query.size(); ++i){
     //     cout << query.at(i) << endl;
     // }
